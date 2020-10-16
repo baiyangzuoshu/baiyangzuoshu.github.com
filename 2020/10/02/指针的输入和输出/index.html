@@ -7,15 +7,15 @@
   
   <title>指针的输入和输出 | 青竹小轩</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！ int getMem(char** p1,int* len1,char** p2,int* len2)&amp;#123;         char* tmp1&#x3D;(char*)malloc(100); strcpy(tmp1,&quot;ssesjidjeidjijdiseji&quot;); in">
+  <meta name="description" content="指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！ 123456789101112131415int getMem(char** p1,int* len1,char **p2,int* len2)&amp;#123;    char* temp1&#x3D;(char*)malloc(100);    strcpy(temp1,&quot;sdfjsodfko">
 <meta property="og:type" content="article">
 <meta property="og:title" content="指针的输入和输出">
 <meta property="og:url" content="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/index.html">
 <meta property="og:site_name" content="青竹小轩">
-<meta property="og:description" content="指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！ int getMem(char** p1,int* len1,char** p2,int* len2)&amp;#123;         char* tmp1&#x3D;(char*)malloc(100); strcpy(tmp1,&quot;ssesjidjeidjijdiseji&quot;); in">
+<meta property="og:description" content="指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！ 123456789101112131415int getMem(char** p1,int* len1,char **p2,int* len2)&amp;#123;    char* temp1&#x3D;(char*)malloc(100);    strcpy(temp1,&quot;sdfjsodfko">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-02T06:34:55.000Z">
-<meta property="article:modified_time" content="2020-10-02T06:35:26.165Z">
+<meta property="article:modified_time" content="2020-10-16T10:54:28.270Z">
 <meta property="article:author" content="白杨树">
 <meta name="twitter:card" content="summary">
   
@@ -89,17 +89,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！</p>
-<p><code>int getMem(char** p1,int* len1,char** p2,int* len2)&#123;</code></p>
-<p><code>        char* tmp1=(char*)malloc(100);</code></p>
-<p><code>strcpy(tmp1,&quot;ssesjidjeidjijdiseji&quot;);</code></p>
-<p><code>int  tmp_len1=strlen(temp1);</code><br><code>p1=&amp;tmp1;</code></p>
-<p><code>len1=&amp;tmp_len1;</code><br><code>char* tmp2=(char*)malloc(200);</code></p>
-<p><code>strcpy(tmp2,&quot;sfososkdoeo29ewjkfje&quot;);</code></p>
-<p><code>int tmp2_len2=strlen(tmp2);</code></p>
-<p><code>p2=&amp;tmp2;</code></p>
-<p><code>len2=&amp;tmp2_len2;</code></p>
-<p><code>return 0;</code></p>
-<p><code>&#125;</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getMem</span><span class="params">(<span class="keyword">char</span>** p1,<span class="keyword">int</span>* len1,<span class="keyword">char</span> **p2,<span class="keyword">int</span>* len2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* temp1=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(temp1,<span class="string">&quot;sdfjsodfkosdkfdskfodsk&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> temp_len=<span class="built_in">strlen</span>(temp1);</span><br><span class="line">    *len1=temp_len;<span class="comment">//len1=&amp;temp_len;</span></span><br><span class="line">    *p1=temp1;<span class="comment">//p1=&amp;temp1;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span>* temp2=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">200</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(temp2, <span class="string">&quot;sedosjdoewkowlwl&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> temp_len2=<span class="built_in">strlen</span>(temp2);</span><br><span class="line">    *len2=temp_len2;<span class="comment">//len2=&amp;temp_len2;</span></span><br><span class="line">    *p2=temp2;<span class="comment">//p2=&amp;temp2;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这是一段指针输入输出的代码，其中输出是有错误的。形参p1保存tmp1地址是无法作为输出，只有当<em>p1=tmp1;当输入的一级指针保存tmp1在堆区申请的内存才有输出的效果！同理，</em>len1=tmp_len1;也是一样的道理。</p>
 
       
@@ -161,6 +152,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/">关卡随机掉落武将碎片算法</a>
+          </li>
         
           <li>
             <a href="/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/">简读《李自成》</a>
