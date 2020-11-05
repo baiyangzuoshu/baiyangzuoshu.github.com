@@ -64,6 +64,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-十连抽宝箱算法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/" class="article-date">
+  <time datetime="2020-11-05T13:28:19.000Z" itemprop="datePublished">2020-11-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/IT/">IT</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/">十连抽宝箱算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ol>
+<li>武将碎片类型:R、SR、SSR。</li>
+<li>三种类型对应的概率为:36,63,1。</li>
+<li>保底机制次数三种类型:10,20,30，单次抽奖不触发。</li>
+<li>每组武将碎片池子抽出的概率，已经拥有的武将为权制90，未拥有的权制10。</li>
+<li>SSR十连抽每次最多一次。</li>
+</ol>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><ol>
+<li>数据结构:{“R”:0,”SR”:0,”SSR”:0}</li>
+<li>三个函数：第一个函数输出碎片类型；第二个函数输出碎片；第三个函数处理第一二函数的数据，并对三种类型次数增加以触发保底。</li>
+</ol>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">odds : &#123; <span class="string">&quot;R&quot;</span>: <span class="number">10</span>, <span class="string">&quot;SR&quot;</span>: <span class="number">20</span>, <span class="string">&quot;SSR&quot;</span>: <span class="number">30</span> &#125;,</span><br><span class="line">ovg: &#123; <span class="string">&quot;0&quot;</span>: <span class="number">10</span>, <span class="string">&quot;1&quot;</span>: <span class="number">90</span> &#125;,</span><br><span class="line">arr2: &#123;</span><br><span class="line">        R: &#123; <span class="string">&quot;4207&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4216&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4219&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4230&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4233&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4251&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4255&quot;</span>: <span class="number">1</span> &#125;,</span><br><span class="line">        SR: &#123; <span class="string">&quot;4202&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4204&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4205&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4206&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4209&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4211&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4213&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4214&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4220&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4223&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4225&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4227&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4228&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4231&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4232&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4234&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4237&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4241&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4243&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4246&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4247&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4249&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4253&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4254&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4236&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4248&quot;</span>: <span class="number">1</span> &#125;,</span><br><span class="line">        SSR: &#123; <span class="string">&quot;4201&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4203&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4208&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4212&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4221&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4224&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4235&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4256&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4210&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4218&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4222&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4239&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4240&quot;</span>: <span class="number">1</span>, <span class="string">&quot;4250&quot;</span>: <span class="number">1</span> &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRandom1</span>(<span class="params">oo, arr, num</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;getRandom1&quot;</span>,oo,arr,num);</span><br><span class="line">  <span class="comment">//十连抽保底机制</span></span><br><span class="line">  <span class="keyword">let</span> mm = &#123; <span class="string">&quot;1&quot;</span>: <span class="string">&quot;R&quot;</span>, <span class="string">&quot;2&quot;</span>: <span class="string">&quot;SR&quot;</span>, <span class="string">&quot;3&quot;</span>: <span class="string">&quot;SSR&quot;</span> &#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &gt; <span class="number">0</span>; i--) &#123; </span><br><span class="line">    <span class="keyword">if</span> (oo[mm[i]] &gt;= arr[mm[i]]&amp;&amp;<span class="number">10</span>==num) &#123; </span><br><span class="line">      <span class="keyword">return</span> mm[i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;   </span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> ret = <span class="string">&quot;R&quot;</span>;</span><br><span class="line">  <span class="keyword">let</span> rand = <span class="built_in">Math</span>.ceil(<span class="built_in">Math</span>.random() * <span class="number">100</span>);</span><br><span class="line">  <span class="keyword">if</span> (rand &gt;= (<span class="number">100</span><span class="number">-63</span>)) &#123;<span class="comment">//[37,100]</span></span><br><span class="line">    ret = <span class="string">&quot;SR&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (rand &gt;= <span class="number">2</span>) &#123;<span class="comment">//[2,36]</span></span><br><span class="line">    ret = <span class="string">&quot;R&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;<span class="comment">//[0,1]</span></span><br><span class="line">    ret = <span class="string">&quot;SSR&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRandom2</span>(<span class="params">ret, heroArr,arr2</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;getRandom2&quot;</span>,ret,heroArr);</span><br><span class="line">  <span class="keyword">let</span> arr = arr2[ret];</span><br><span class="line">  <span class="keyword">let</span> newArr = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j <span class="keyword">in</span> arr) &#123; </span><br><span class="line">    <span class="keyword">let</span> goodID = j;</span><br><span class="line">    <span class="keyword">let</span> count = arr[j];</span><br><span class="line">    <span class="keyword">let</span> _odds = ovg[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (heroArr.indexOf(_dic.goods[goodID].hid) == <span class="number">-1</span>) &#123;</span><br><span class="line">      _odds = ovg[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    newArr.push(&#123;</span><br><span class="line">      odds:_odds,</span><br><span class="line">      id: newArr.length,</span><br><span class="line">      goodID: goodID,</span><br><span class="line">      count:count</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> id = randomWeightChoice(newArr);</span><br><span class="line">  <span class="keyword">return</span> &#123;<span class="string">&quot;goodID&quot;</span>:newArr[id][<span class="string">&quot;goodID&quot;</span>],<span class="string">&quot;count&quot;</span>:newArr[id][<span class="string">&quot;count&quot;</span>]&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>.getRandomGoodJson3 = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params">num, player, odds, ovg, arr2</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;getRandomGoodJson3&quot;</span>,num,odds,ovg,arr2);</span><br><span class="line">    <span class="keyword">let</span> heroBoxObj = player.get(<span class="string">&quot;heroBoxObj&quot;</span>) || &#123; <span class="string">&quot;R&quot;</span>: <span class="number">0</span>, <span class="string">&quot;SR&quot;</span>: <span class="number">0</span>, <span class="string">&quot;SSR&quot;</span>: <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">let</span> heroQ = <span class="keyword">new</span> AV.Query(<span class="string">&quot;hero&quot;</span>);</span><br><span class="line">    heroQ.equalTo(<span class="string">&quot;playerID&quot;</span>, player);</span><br><span class="line">    <span class="keyword">let</span> heroes = <span class="keyword">await</span> heroQ.limit(<span class="number">1000</span>).find();</span><br><span class="line">    <span class="keyword">let</span> heroArr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> heroes) &#123; </span><br><span class="line">        heroArr.push(heroes[i].get(<span class="string">&quot;heroID&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> SSR = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> goodArr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; num; j++) &#123; </span><br><span class="line">        <span class="keyword">let</span> ret = getRandom1(heroBoxObj, odds,num);</span><br><span class="line">        <span class="keyword">while</span> (SSR&amp;&amp;ret==<span class="string">&quot;SSR&quot;</span>) &#123; </span><br><span class="line">            ret = getRandom1(heroBoxObj, odds,num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ret == <span class="string">&quot;SSR&quot;</span>) &#123;</span><br><span class="line">            SSR = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        heroBoxObj[ret] = <span class="number">-1</span>;</span><br><span class="line">        heroBoxObj[<span class="string">&quot;R&quot;</span>]++;</span><br><span class="line">        heroBoxObj[<span class="string">&quot;SR&quot;</span>]++;</span><br><span class="line">        heroBoxObj[<span class="string">&quot;SSR&quot;</span>]++;</span><br><span class="line"></span><br><span class="line">        goodArr.push(getRandom2(ret, heroArr));</span><br><span class="line">    &#125;</span><br><span class="line">    player.set(<span class="string">&quot;heroBoxObj&quot;</span>, heroBoxObj);</span><br><span class="line">    <span class="keyword">return</span> [goodArr,SSR];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://baiyangzuoshu.github.io/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/" data-id="ckh4vc5ah00070cis03lx8uiz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2020-10-31-周刊" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/" class="article-date">
@@ -195,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/" data-id="ckgxrd0jh000ng4iscb7jaktq" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/" data-id="ckh4vc5ak00090ciscc7b3ts0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -326,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/2020-10-24-%E5%91%A8%E5%88%8A/" data-id="ckgxrd0j40001g4isavx36gkq" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/2020-10-24-%E5%91%A8%E5%88%8A/" data-id="ckh4vc5a900010cish8ca16bk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -372,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%B8%80/" data-id="ckgxrd0iy0000g4iscfs2fgri" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%B8%80/" data-id="ckh4vc5ab00030cis8g92alck" class="article-share-link">Share</a>
       
       
     </footer>
@@ -483,7 +538,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/17/2020-10-17-%E5%91%A8%E5%88%8A/" data-id="ckgxrd0jh000mg4isdkd5d1g9" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/17/2020-10-17-%E5%91%A8%E5%88%8A/" data-id="ckh4vc5a000000cisb0hrcve8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -542,7 +597,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" data-id="ckgxrd0j70003g4is4z2g05hx" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" data-id="ckh4vc5ad00050cisedx3hcav" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
@@ -588,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckgxrd0ja0008g4isc9ls8e5x" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckh4vc5al000c0cishnljboe6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%A0%E8%AE%B0/" rel="tag">传记</a></li></ul>
@@ -634,7 +689,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" data-id="ckgxrd0j90006g4is5mrf7r8a" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" data-id="ckh4vc5aq000r0cis1w3z9e8c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C</a></li></ul>
@@ -704,7 +759,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/09/27/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3hexo/" data-id="ckgxrd0j80004g4iscrq4gt8q" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/09/27/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3hexo/" data-id="ckh4vc5ac00040cis1h3ldij6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -734,7 +789,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%AE%B0/" rel="tag">传记</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%A0%E8%AE%B0/" rel="tag">传记</a></li></ul>
     </div>
   </div>
 
@@ -744,7 +799,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/%E4%BC%A0%E8%AE%B0/" style="font-size: 10px;">传记</a>
+      <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/%E4%BC%A0%E8%AE%B0/" style="font-size: 10px;">传记</a>
     </div>
   </div>
 
@@ -753,7 +808,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li></ul>
     </div>
   </div>
 
@@ -764,6 +819,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/">十连抽宝箱算法</a>
+          </li>
         
           <li>
             <a href="/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/">2020-10-31-周刊</a>
@@ -779,10 +838,6 @@
         
           <li>
             <a href="/2020/10/17/2020-10-17-%E5%91%A8%E5%88%8A/">2020-10-17-周刊</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/">关卡随机掉落武将碎片算法</a>
           </li>
         
       </ul>
