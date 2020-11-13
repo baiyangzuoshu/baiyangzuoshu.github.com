@@ -64,6 +64,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-压缩jpg图片" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/13/%E5%8E%8B%E7%BC%A9jpg%E5%9B%BE%E7%89%87/" class="article-date">
+  <time datetime="2020-11-13T15:20:09.000Z" itemprop="datePublished">2020-11-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/IT/">IT</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/13/%E5%8E%8B%E7%BC%A9jpg%E5%9B%BE%E7%89%87/">压缩jpg图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ol>
+<li>客户端显示的图片资源过多，导致游戏包体过大，需要优化。</li>
+<li>在压缩图片资源的情况下，不能失真。</li>
+</ol>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><ol>
+<li>尽量提供GUI工具给美术或策划。</li>
+<li>再次则是提供批处理。</li>
+<li>如果是批处理则选择自己熟悉的领域，不能是无法掌控。</li>
+</ol>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>jpg采用代码的形式，png采用PNGoo。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">var images &#x3D; require(&quot;images&quot;);</span><br><span class="line">var fs &#x3D; require(&quot;fs&quot;);</span><br><span class="line">function compressJPG(path) &#123;</span><br><span class="line">    &#x2F;&#x2F;读取路径</span><br><span class="line">    fs.readdir(path, function(err, files)&#123;</span><br><span class="line">        if(err) return console.log(&#39;compressJPG error:\n&#39; + err);</span><br><span class="line">        &#x2F;&#x2F;遍历文件&#x2F;文件夹</span><br><span class="line">        files.forEach(function (file) &#123;</span><br><span class="line">            &#x2F;&#x2F;遍历文件夹的文件&#x2F;文件夹</span><br><span class="line">            fs.stat(path + &#39;&#x2F;&#39; + file, function(err, stat)&#123;</span><br><span class="line">                if (err) console.log(&#39;compressJPG error2:\n&#39; + err);</span><br><span class="line">                &#x2F;&#x2F;判断是否是文件夹</span><br><span class="line">                if(stat.isDirectory())&#123;                 </span><br><span class="line">                    &#x2F;&#x2F;递归</span><br><span class="line">                    compressJPG(path + &#39;&#x2F;&#39; + file);</span><br><span class="line">                &#125;else&#123;&#x2F;&#x2F;遍历文件</span><br><span class="line">                    console.log(&#39;文件名:&#39; + path + &#39;&#x2F;&#39; + file);</span><br><span class="line">                    let str &#x3D; file.split(&quot;.&quot;);</span><br><span class="line">                    if (&quot;jpg&quot; &#x3D;&#x3D; str[1]) &#123; &#x2F;&#x2F;只处理jpg</span><br><span class="line">                        var name &#x3D; path + &#39;&#x2F;&#39; + file;</span><br><span class="line">                        var outName &#x3D; path + &#39;&#x2F;&#39; + &#39;out_&#39; + file</span><br><span class="line">                        images(name)</span><br><span class="line">                            .save(outName, &#123;               &#x2F;&#x2F;Save the image to a file,whih quality 60</span><br><span class="line">                                quality: 60                    &#x2F;&#x2F;保存图片到文件,图片质量为60</span><br><span class="line">                            &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                    else &#123; </span><br><span class="line">                        console.log(str);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;    </span><br><span class="line">                </span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; compressJPG;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://baiyangzuoshu.github.io/2020/11/13/%E5%8E%8B%E7%BC%A9jpg%E5%9B%BE%E7%89%87/" data-id="ckhgf1i9i000l37is30w7ec02" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-上海散步-二" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/11/07/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%BA%8C/" class="article-date">
@@ -103,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/11/07/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%BA%8C/" data-id="ckhgez69i0007zais4ae428g4" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/11/07/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%BA%8C/" data-id="ckhgf1i9a000d37isbnjm0lrv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -211,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/11/07/2020-11-07-%E5%91%A8%E5%88%8A/" data-id="ckhgez6960003zais8wnh2oo9" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/11/07/2020-11-07-%E5%91%A8%E5%88%8A/" data-id="ckhgf1i94000537is4a3pafec" class="article-share-link">Share</a>
       
       
     </footer>
@@ -264,7 +317,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/" data-id="ckhgez69x000lzaisapcjavbt" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/" data-id="ckhgf1i9d000i37is78tx0mvm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
@@ -407,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/" data-id="ckhgez68l0000zais3uvdb9a0" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/" data-id="ckhgf1i94000437is2rsg3l1x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -538,7 +591,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/2020-10-24-%E5%91%A8%E5%88%8A/" data-id="ckhgez68z0001zaisbnmb4c72" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/2020-10-24-%E5%91%A8%E5%88%8A/" data-id="ckhgf1i8x000037isal2e190u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%B8%80/" data-id="ckhgez6980004zais8me69v05" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/24/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%B8%80/" data-id="ckhgf1i93000337is33wzgacw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -695,7 +748,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/17/2020-10-17-%E5%91%A8%E5%88%8A/" data-id="ckhgez69y000mzais3obcgs1z" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/17/2020-10-17-%E5%91%A8%E5%88%8A/" data-id="ckhgf1i91000137isd65tf8pk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -754,7 +807,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" data-id="ckhgez69a0005zaiscod5dhpd" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" data-id="ckhgf1i9b000e37is2sgterww" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
@@ -800,56 +853,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckhgez6a1000pzais0h7fa7pf" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckhgf1i9j000p37is32f74gqo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%A0%E8%AE%B0/" rel="tag">传记</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-指针的输入和输出" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" class="article-date">
-  <time datetime="2020-10-02T06:34:55.000Z" itemprop="datePublished">2020-10-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/IT/">IT</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/">指针的输入和输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>指针这种技术很难理解，死记硬背是不行的，非得实操才能正真理解，即便你暂时理解了，没有间隔去复习还是会忘记！</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getMem</span><span class="params">(<span class="keyword">char</span>** p1,<span class="keyword">int</span>* len1,<span class="keyword">char</span> **p2,<span class="keyword">int</span>* len2)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* temp1=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(temp1,<span class="string">&quot;sdfjsodfkosdkfdskfodsk&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> temp_len=<span class="built_in">strlen</span>(temp1);</span><br><span class="line">    *len1=temp_len;<span class="comment">//len1=&amp;temp_len;</span></span><br><span class="line">    *p1=temp1;<span class="comment">//p1=&amp;temp1;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span>* temp2=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">200</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(temp2, <span class="string">&quot;sedosjdoewkowlwl&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> temp_len2=<span class="built_in">strlen</span>(temp2);</span><br><span class="line">    *len2=temp_len2;<span class="comment">//len2=&amp;temp_len2;</span></span><br><span class="line">    *p2=temp2;<span class="comment">//p2=&amp;temp2;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是一段指针输入输出的代码，其中输出是有错误的。形参p1保存tmp1地址是无法作为输出，只有当<em>p1=tmp1;当输入的一级指针保存tmp1在堆区申请的内存才有输出的效果！同理，</em>len1=tmp_len1;也是一样的道理。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" data-id="ckhgez6a0000ozais0e6x7kq5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C</a></li></ul>
 
     </footer>
   </div>
@@ -915,6 +922,10 @@
       <ul>
         
           <li>
+            <a href="/2020/11/13/%E5%8E%8B%E7%BC%A9jpg%E5%9B%BE%E7%89%87/">压缩jpg图片</a>
+          </li>
+        
+          <li>
             <a href="/2020/11/07/%E4%B8%8A%E6%B5%B7%E6%95%A3%E6%AD%A5-%E4%BA%8C/">上海散步(二)</a>
           </li>
         
@@ -928,10 +939,6 @@
         
           <li>
             <a href="/2020/10/31/2020-10-31-%E5%91%A8%E5%88%8A/">2020-10-31-周刊</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/24/2020-10-24-%E5%91%A8%E5%88%8A/">2020-10-24-周刊</a>
           </li>
         
       </ul>
