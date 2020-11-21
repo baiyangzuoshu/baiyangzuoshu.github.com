@@ -1,4 +1,6 @@
 #!/bin/bash
+#brew install imagemagick
+#brew install webp
 
 function    travFolder(){
     echo "travFolder"

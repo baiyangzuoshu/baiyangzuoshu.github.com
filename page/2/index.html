@@ -64,6 +64,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-关卡随机掉落武将碎片算法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" class="article-date">
+  <time datetime="2020-10-16T10:55:33.000Z" itemprop="datePublished">2020-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/IT/">IT</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/">关卡随机掉落武将碎片算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ol>
+<li>关卡每两次随机掉落一次武将碎片</li>
+<li>关卡每十次随机掉落一次武将碎片</li>
+<li>每次最多掉落一次武将碎片</li>
+</ol>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ol>
+<li><p>数据的结构应该类似{“warID”:data}</p>
+</li>
+<li><p>data的数据格式采用[0,1,0,1,0,1,0,1,2,1]</p>
+</li>
+<li><p>0表示未掉落，1表示掉落每两次，2表示每十次</p>
+</li>
+<li><p>每十次的掉落最终肯定是在0的时候进行判断；每两次的判断分为当前数组的长度%2取余数，即为偶数则随机，奇数的话，如果data[data.length-1]等于0，则必定会掉落，反之不掉落。</p>
+</li>
+<li><p>每次得到0，则每十次的ran+=20,然后取随机数进行比较，最终每十次掉落，则赋值为2</p>
+</li>
+</ol>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span>	warHeroChip=&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>    <span class="title">getWarHeroReward</span>(<span class="params">warID,max=<span class="number">10</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!warHeroChip.hasOwnProperty(warID) || max == warHeroChip[warID].length) &#123; <span class="comment">//init</span></span><br><span class="line">        <span class="built_in">console</span>.log(warHeroChip[warID]);</span><br><span class="line">        <span class="keyword">let</span> ran = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">2</span>);</span><br><span class="line">        warHeroChip[warID] = [ran];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//每两次掉落</span></span><br><span class="line">    <span class="keyword">let</span> val = <span class="number">0</span>;<span class="comment">//默认为不掉落</span></span><br><span class="line">    <span class="keyword">let</span> len = warHeroChip[warID].length;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == len % <span class="number">2</span>)<span class="comment">//偶数</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> ran1 = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">100</span>);</span><br><span class="line">        <span class="keyword">if</span> (ran1 &gt; <span class="number">50</span>) val = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123; </span><br><span class="line">        <span class="keyword">let</span> key = warHeroChip[warID][len - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (key != <span class="number">1</span>)val = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    warHeroChip[warID].push(val);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每十次掉落</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == val) &#123; </span><br><span class="line">        <span class="keyword">let</span> ran = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; warHeroChip[warID].length; i++) &#123; </span><br><span class="line">            <span class="keyword">if</span> (<span class="number">0</span> == warHeroChip[warID][i]) ran += <span class="number">20</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="number">2</span> == warHeroChip[warID][i]) &#123;</span><br><span class="line">                ran = <span class="number">-1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> ran2 = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">100</span>);</span><br><span class="line">        <span class="keyword">if</span> (ran2 &lt;= ran) &#123; </span><br><span class="line">            val = <span class="number">2</span>;</span><br><span class="line">            warHeroChip[warID][len] = val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/16/%E5%85%B3%E5%8D%A1%E9%9A%8F%E6%9C%BA%E6%8E%89%E8%90%BD%E6%AD%A6%E5%B0%86%E7%A2%8E%E7%89%87%E7%AE%97%E6%B3%95/" data-id="ckhrs7bqj000hauisdcb4acbl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-简读《李自成》" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" class="article-date">
@@ -98,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckhifxmmd000rixiscngo3azl" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/14/%E7%AE%80%E8%AF%BB%E3%80%8A%E6%9D%8E%E8%87%AA%E6%88%90%E3%80%8B/" data-id="ckhrs7bqn000qauis8pjmaxy0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%A0%E8%AE%B0/" rel="tag">传记</a></li></ul>
@@ -144,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" data-id="ckhifxmmc000pixis87o58n7y" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/10/02/%E6%8C%87%E9%92%88%E7%9A%84%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA/" data-id="ckhrs7bqm000nauisckma4v70" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C</a></li></ul>
@@ -214,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://baiyangzuoshu.github.io/2020/09/27/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3hexo/" data-id="ckhifxmm8000kixis2en561nn" class="article-share-link">Share</a>
+      <a data-url="https://baiyangzuoshu.github.io/2020/09/27/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3hexo/" data-id="ckhrs7bql000mauis66s49xxj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -281,6 +342,10 @@
       <ul>
         
           <li>
+            <a href="/2020/11/21/2020-11-21-%E5%91%A8%E5%88%8A/">2020-11-21-周刊</a>
+          </li>
+        
+          <li>
             <a href="/2020/11/14/2020-11-14-%E5%91%A8%E5%88%8A/">2020-11-14-周刊</a>
           </li>
         
@@ -294,10 +359,6 @@
         
           <li>
             <a href="/2020/11/07/2020-11-07-%E5%91%A8%E5%88%8A/">2020-11-07-周刊</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/05/%E5%8D%81%E8%BF%9E%E6%8A%BD%E5%AE%9D%E7%AE%B1%E7%AE%97%E6%B3%95/">十连抽宝箱算法</a>
           </li>
         
       </ul>
